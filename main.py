@@ -22,16 +22,18 @@ class MyServer(BaseHTTPRequestHandler):
         json_data.append(json_body)
         self.save_json(json_data)
 
+        json_data = self.load_json()
+
         self.send_response(286)
         self.send_header( "Content-type", "application/json")
         self.end_headers()
-        self.wfile.write(bytes('[]', "utf-8"))
+        self.wfile.write(bytes(json.dumps(json_data), "utf-8"))
     def do_GET(self):
-        json_data = self.load_json()
+
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
-        self.wfile.write(bytes(json.dumps(json_data), "utf-8"))
+        self.wfile.write(bytes(json.dumps("Hello, World wide web!"), "utf-8"))
 
 if __name__== "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
